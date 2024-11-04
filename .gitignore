@@ -4,6 +4,10 @@
 .Rhistory
 .history
 
+*.bbl
+*.blg
+*.lof
+.lot
 *.aux
 *.nav
 *.out
