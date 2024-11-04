@@ -1,0 +1,8 @@
+\section{Related Work}\label{sec:related}
+The fundamentals of the DCEL data structure were introduced in the seminal paper by Muller and Preparata  \cite{muller_finding_1978}. The advantages of DCELs are highlighted in \cite{preparata_computational_1985, berg_computational_2008}. Examples of using DCELs for diverse applications appear in \cite{barequet_dcel_1998, boltcheva_topological-based_2020, freiseisen_colored_1998}.
+
+Once the overlay DCEL is created by combining two layers, overlay operators like union, difference, etc., can be computed in linear time to the number of faces in their overlay \cite{freiseisen_colored_1998}. 
+Currently, few sequential implementations are available: LEDA \cite{mehlhorn_leda_1995}, Holmes3D
+\cite{holmes_dcel_2021} and CGAL \cite{fogel_cgal_2012}. Among them, CGAL is an open-source project widely used for computational geometry research. To the best of our knowledge, there is no scalable implementation for the computation of DCEL overlay.
+
+While there is a lot of work on using spatial access methods to support spatial joins, intersections, unions etc. in a parallel way (using clusters, multicores or GPUs), \cite{challa_dd-rtree_2016, sabek_spatial_2017, li_scalable_2019, franklin_data_2018, magalhaes_fast_2015, puri_efficient_2013, puri_mapreduce_2013} these approaches are different in two ways: (i) after the index filtering, they need a time-consuming refine phase where the operator (union, intersection etc.) has to be applied on each pair of (typically) complex spatial objects; (ii) if the operator changes, we need to run the filter/refine phases from scratch (in contrast, the same overlay DCEL can be used to run all operators.)
