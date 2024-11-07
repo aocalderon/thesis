@@ -7,7 +7,7 @@
 *.bbl
 *.blg
 *.lof
-.lot
+*.lot
 *.aux
 *.nav
 *.out
