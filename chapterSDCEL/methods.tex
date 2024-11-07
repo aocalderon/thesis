@@ -4,7 +4,7 @@ The DCEL \cite{muller_finding_1978} structure is used to represent an embedding 
 
 An important characteristic is that all these records are defined using edges as the main component (thus termed an edge-based structure). Examples appear in Tables \ref{tab:vertices}-\ref{tab:hedges}, with the subdivision depicted in Figure \ref{fig:dcel_example}.
 
-\begin{table*} %\label{tab:records}
+\begin{table} %\label{tab:records}
 \begin{minipage}{0.49\textwidth}
     \small
     \centering
@@ -35,9 +35,9 @@ An important characteristic is that all these records are defined using edges as
         \bottomrule
     \end{tabular}
 \end{minipage}
-\end{table*}
+\end{table}
 
-\begin{table*} 
+\begin{table} 
 \begin{minipage}{\textwidth}
     \small
     \centering
@@ -53,7 +53,7 @@ An important characteristic is that all these records are defined using edges as
         \bottomrule
     \end{tabular}
 \end{minipage}
-\end{table*}
+\end{table}
 
 An edge corresponds to a straight line segment shared by two adjacent faces (polygons). Each of these two faces will use this edge in its description; to distinguish, each edge has two \textit{half-edges}, one for each orientation (direction). It is important to note that half-edges are oriented counter-clockwise inside each face (Figure \ref{fig:dcel_example}). A half-edge is thus defined by its two vertices, one called the \textit{origin} vertex and the other the \textit{target} vertex, clearly specifying the half-edge's orientation (origin to target). Each half-edge record contains references to its origin vertex, its face, its \textit{twin} half-edge, as well as the next and previous half-edges (using the orientation of its face); see Table \ref{tab:hedges}. These references are used as keys to the tables that contain the referred attributes. 
 
@@ -69,13 +69,9 @@ An important advantage of the DCEL structure is that a user can combine two DCEL
 
 The sequential algorithm \cite{fogel_cgal_2012} to construct the overlay between two DCELs first extracts the half-edge segments from the half-edge tables and then finds intersection points between half-edges from the two layers (using a sweep line approach) \cite{berg_computational_2008}. The intersection points found will become new vertices of the resulting overlay. If an existing half-edge contains an intersection point, it is split into two new half-edges. Using the list of outgoing and incoming half-edges for the newly added vertices (intersection points), the algorithm can compute the attributes for the records of the new half-edges. For example, the list of outgoing and incoming half-edges at each new vertex will be used to update the next, previous, and twin pointers. Finally, the records of the faces and the vertices tables are updated with the new information. 
 
-Figure \ref{fig:dcel_seq} illustrates an example of computing the overlay between two DCEL layers with one face each ($A_1$ and $B_1$ respectively) overlapping 
-the same area. First, intersection points are identified, and new vertices are created in the overlay (red vertices $c_1$ and $c_2$). Then, new half-edges are 
-created around these new vertices. As a result, face $A_1$ is modified (to an L-shaped boundary), as does face $B_1$, while a new face $A_1B_1$ is created. 
-Since this new face is the intersection of the boundaries of $A_1$ and $B_1$, its label contains the concatenation of both face labels. By convention 
-\cite{berg_computational_2008}, even though $A_1$ changes its shape, it does not change its label since its new shape is created by its intersection with the 
-unbounded face of $B_1$; similarly, the new shape of $B_1$ maintains its original label. These labels are crucial for creating the overlay (and the operators it 
-supports) as they are used to identify which polygons overlap an existing face.
+Figure \ref{fig:dcel_seq} illustrates an example of computing the overlay between two DCEL layers with one face each ($A_1$ and $B_1$ respectively) overlapping the same area. First, intersection points are identified, and new vertices are created in the overlay (red vertices $c_1$ and $c_2$). Then, new half-edges are created around these new vertices. As a result, face $A_1$ is modified (to an L-shaped boundary), as does face $B_1$, while a new face $A_1B_1$ is created. 
+
+Since this new face is the intersection of the boundaries of $A_1$ and $B_1$, its label contains the concatenation of both face labels. By convention \cite{berg_computational_2008}, even though $A_1$ changes its shape, it does not change its label since its new shape is created by its intersection with the unbounded face of $B_1$; similarly, the new shape of $B_1$ maintains its original label. These labels are crucial for creating the overlay (and the operators it supports) as they are used to identify which polygons overlap an existing face.
 
 \begin{figure}
     \centering
@@ -83,10 +79,7 @@ supports) as they are used to identify which polygons overlap an existing face.
     \caption{Sequential computations of an overlay of two DCEL layers.}\label{fig:dcel_seq}
 \end{figure}
 
-Once the overlay structure of two DCELs is computed, queries like their intersection, union, difference, etc. (Figure \ref{fig:dcel_operators}) can 
-be performed in linear time to the number of faces in the overlay. The space requirement for the overlay structure remains linear to the number of vertices, 
-edges, and faces. Since an overlay is itself a DCEL, it can support the traditional DCEL operations (e.g., find the boundary of a face, access a face from an 
-adjacent one, visit all the edges around a vertex, etc).
+Once the overlay structure of two DCELs is computed, queries like their intersection, union, difference, etc. (Figure \ref{fig:dcel_operators}) can be performed in linear time to the number of faces in the overlay. The space requirement for the overlay structure remains linear to the number of vertices, edges, and faces. Since an overlay is itself a DCEL, it can support the traditional DCEL operations (e.g., find the boundary of a face, access a face from an adjacent one, visit all the edges around a vertex, etc).
 
 \begin{figure}
     \centering
@@ -103,6 +96,22 @@ While the sequential algorithm is efficient with small DCEL layers, it suffers w
 Nevertheless, the overlay computation can take advantage of \textit{\textbf{partitioning}} (and thus parallelism) by observing that the edges in a given area of one input layer can only intersect with edges from the same area in the other input layer. One can thus spatially partition the two input DCELs and then compute the overlay within each cell; such computations are independent and can be performed in parallel. While this is a high-level view of our scalable approach, there are various challenges, including how to deal with edges that cross cells, how to manage the extra complexity introduced by \textit{orphan} holes (i.e., when holes and their polygons are in different cells), how and where to combine partition overlays into a global overlay, as well as how to balance the computation if one layer is much larger than the other.
 
 \subsection{Partition Strategy} \label{sec:pstrategies}
+
+%% Extension
+% \subsubsection{Kd-tree Partition Strategy} %\label{sec:kdtreestrategy}
+% In Section \ref{sec:pstrategies}, we use the quadtree spatial index as the baseline for our partitioning strategy. The quadtree follows a space-oriented approach, as it does not consider the content of each cell when determining potential splits. In contrast, kd-tree-based partitioning employs a data-oriented approach by sorting and selecting the midpoint within a cell to guide the placement of splits for future child nodes.
+% 
+% Building and populating the kd-tree partitioning follows a process similar to that of the quadtree. First, a kd-tree is constructed from a sample representing 1\% of the input data to define the tree’s structure, where the leaves represent the partition’s cells. The input data is then fed into this kd-tree structure, with each edge assigned to the leaf cell containing its boundaries. After partitioning, the local DCELs for each layer are constructed, and the overlay operation is performed within each cell as described in Section \ref{sec:pstrategies}.
+% 
+% Section \ref{sec:extension_experiments} will compare two partitioning strategies, the one presented in \ref{sec:pstrategies} based on the quadtree (i.e. space-oriented) and one on the kd-tree (i.e. data-oriented) indexes.  Note that both tree-based data partitioning involves shuffling all edges; this however, happens only once. Our experimental evaluation (see Section \ref{sec:comparison}) shows that the data-oriented approach leads to better performance.
+
+While a simple grid could be used to divide the spatial area, our early experiments demonstrated that this approach leads to unbalanced cells, with some containing significantly more edges than others, negatively impacting overall performance.  Therefore, an advanced partitioning strategy is better since it adapts to skewed spatial distributions and helps assign a similar number of edges to each cell. In particular, we used two partitioning strategies, one based on the quadtree (i.e. space-oriented) and one on the kd-tree (i.e. data-oriented) indexes.
+
+Note that such tree-based data partitioning involves shuffling all edges; this however, happens only once.  Our experimental evaluation (see Section \ref{sec:comparison}) shows that the data-oriented approach leads to better performance. Nevertheless, in describing the various challenges (orphan cells and holes, overlay evaluation, and optimizations) we use the quadtree-based partition since its well-defined space-oriented partitioning makes the presentation easier.
+
+\subsubsection{Quadtree Partition Strategy}
+\label{sec:strategy}
+
 The main idea of the quadtree partition strategy is to split the area covered by the input layers into non-overlapping cells, which can then be processed independently.  While a simple grid could be used to divide the spatial area, our early experiments demonstrated that this approach leads to unbalanced cells, with some containing significantly more edges than others, negatively impacting overall performance.  In the rest we assume that the partitioning is performed using a quadtree index wich adapts to skewed spatial distributions and helps to assign a similiar number of edges to each cell.
 
 The overall approach can be summarized in the following steps: (i) Partition the input layers into the index cells and build local DCEL representations of them at each cell, and (ii) Compute the overlay of the DCELs at each cell. Overlay operators and other functions can be run over the local overlays, and local results are collected to generate the final answer.
@@ -162,6 +171,11 @@ a hole can split among many such cells.
 
 The issue with both `orphan' problems is the missing labels. In section \ref{sec:anomalies}, we propose an algorithm that correctly labels an orphan cell. If 
 this cell contains a hole, the new label is also used to update the hole edges. 
+
+\subsubsection{Kd-tree Partition Strategy} \label{sec:kdtreestrategy}
+
+The kd-tree based partitioning is a data-oriented approach because it sorts and picks the middle point inside a cell to locate the split of the future children. 1\% of the input data is used to build a kd-tree and extract the tree's structure.  The leaves of this structure are the partition's cells.  We feed the input data into the generated kd-tree structure to assign each edge to the leaf cell that has the edge within its boundaries.  After the partitioning is done, the construction of the local DCELs for each layer and the overlay operation is performed in each local cell in the same fashion as described in section \ref{sec:strategy}. 
+
 
 \subsection{Labeling Orphan Cells and Holes} \label{sec:anomalies}
 Assuming a quadtree-based partitioning, to find the label of an orphan cell, we propose an algorithm that recursively searches the space around the orphan cell
