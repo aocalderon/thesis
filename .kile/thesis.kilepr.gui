@@ -244,6 +244,10 @@ order=8
 open=false
 order=6
 
+[item:conclusions.tex]
+open=false
+order=-1
+
 [item:introduction.tex]
 open=false
 order=13
@@ -273,8 +277,8 @@ TextFolding=[]
 ViMarks=
 
 [view-settings,view=0,item:appendix.tex]
-CursorColumn=0
-CursorLine=0
+CursorColumn=12
+CursorLine=68
 Dynamic Word Wrap=false
 JumpList=
 TextFolding=[]
@@ -387,7 +391,7 @@ ViMarks=
 [view-settings,view=0,item:introduction.tex]
 CursorColumn=0
 CursorLine=0
-Dynamic Word Wrap=false
+Dynamic Word Wrap=true
 JumpList=
 TextFolding=[]
 ViMarks=
@@ -410,7 +414,7 @@ ViMarks=
 
 [view-settings,view=0,item:thesis.tex]
 CursorColumn=0
-CursorLine=109
+CursorLine=107
 Dynamic Word Wrap=false
 JumpList=
 TextFolding=[]

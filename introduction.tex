@@ -31,28 +31,12 @@ proven invaluable. However, efficiently mining these patterns at scale remains a
 spatio-temporal datasets.
 
 \section{Motivation}
-The rise of big geospatial data demands scalable and efficient techniques to handle the complex overlay operations required for analyses in ecology, economics, 
-and urban planning. Sequential implementations of DCEL-based overlays have proved inadequate when confronted with large datasets, often leading to performance 
-bottlenecks and memory overflows. This limitation not only hampers the performance of geospatial analyses but also restricts the scope of investigations 
-possible with current data.
+The rise of big geospatial data demands scalable and efficient techniques to handle the complex overlay operations required for analyses in ecology, economics, and urban planning. Sequential implementations of DCEL-based overlays have proved inadequate when confronted with large datasets, often leading to performance bottlenecks and memory overflows. This limitation not only hampers the performance of geospatial analyses but also restricts the scope of investigations possible with current data.
 
-The need for scalability in DCEL overlays is further amplified by the availability of spatial datasets that are inherently complex, such as road networks 
-represented as individual line segments or census tracts with intricate boundaries. Processing such datasets requires more than just traditional polygon overlay 
-techniques, as these often need preprocessing steps like polygonization for line-based inputs. A distributed approach to DCEL overlays that can handle both 
-large polygon layers and scattered line segment data would significantly expand the types of analyses available to spatial data scientists.
+The need for scalability in DCEL overlays is further amplified by the availability of spatial datasets that are inherently complex, such as road networks represented as individual line segments or census tracts with intricate boundaries. Processing such datasets requires more than just traditional polygon overlay techniques, as these often need preprocessing steps like polygonization for line-based inputs. A distributed approach to DCEL overlays that can handle both large polygon layers and scattered line segment data would significantly expand the types of analyses available to spatial data scientists.
 
-This research addresses these challenges by developing a distributed and scalable approach to compute DCEL overlays, capable of supporting various overlay 
-operations and accommodating complex input data. By introducing novel partitioning strategies and optimizations tailored for DCEL overlays, this study aims to 
-extend the utility of DCEL in spatial analysis, enabling rapid and scalable processing of large-scale geospatial datasets in a parallel computing environment.
+This research addresses these challenges by developing a distributed and scalable approach to compute DCEL overlays, capable of supporting various overlay operations and accommodating complex input data. By introducing novel partitioning strategies and optimizations tailored for DCEL overlays, this study aims to extend the utility of DCEL in spatial analysis, enabling rapid and scalable processing of large-scale geospatial datasets in a parallel computing environment.
 
-Similarly, traditional approaches to identifying moving flock patterns, such as the Basic Flock Evaluation (BFE) algorithm, have established foundations for 
-detecting group movement but are limited in scalability. These methods typically involve exhaustive spatial and temporal comparisons to track group 
-cohesiveness, resulting in high computational costs. With the continued growth of data and the increasing density of spatial datasets, there is a pressing need 
-for scalable, efficient solutions that can detect moving flocks in large, complex datasets.
+Similarly, traditional approaches to identifying moving flock patterns, such as the Basic Flock Evaluation (BFE) algorithm, have established foundations for detecting group movement but are limited in scalability. These methods typically involve exhaustive spatial and temporal comparisons to track group cohesiveness, resulting in high computational costs. With the continued growth of data and the increasing density of spatial datasets, there is a pressing need for scalable, efficient solutions that can detect moving flocks in large, complex datasets.
 
-This research is motivated by the limitations of current algorithms in processing large-scale dense datasets with high efficiency. Recognizing the potential of 
-distributed computing frameworks and advanced partitioning strategies, this work proposes a novel, partition-based approach that enables scalable processing of 
-moving flock patterns. By leveraging partitioning, replication, and parallel processing, the proposed methodology aims to overcome the bottlenecks of 
-traditional methods. Additionally, integrating temporal joining strategies —such as the Cube-based approach— ensures efficient tracking of flock continuity 
-across time while reducing computational overhead. The ultimate goal is to create a system that can handle extensive spatio-temporal datasets while maintaining 
-accuracy in flock detection, enabling applications to extend to even larger and denser data environments.
+This research is motivated by the limitations of current algorithms in processing large-scale dense datasets with high efficiency. Recognizing the potential of distributed computing frameworks and advanced partitioning strategies, this work proposes a novel, partition-based approach that enables scalable processing of moving flock patterns. By leveraging partitioning, replication, and parallel processing, the proposed methodology aims to overcome the bottlenecks of traditional methods. Additionally, integrating temporal joining strategies —such as the Cube-based approach— ensures efficient tracking of flock continuity across time while reducing computational overhead. The ultimate goal is to create a system that can handle extensive spatio-temporal datasets while maintaining accuracy in flock detection, enabling applications to extend to even larger and denser data environments.
