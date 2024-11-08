@@ -221,8 +221,8 @@ open=false
 order=19
 
 [item:chapterPFlocks/methods.tex]
-open=false
-order=12
+open=true
+order=1
 
 [item:chapterSDCEL.tex]
 open=false
@@ -341,9 +341,9 @@ TextFolding=[]
 ViMarks=
 
 [view-settings,view=0,item:chapterPFlocks/methods.tex]
-CursorColumn=0
-CursorLine=0
-Dynamic Word Wrap=false
+CursorColumn=117
+CursorLine=165
+Dynamic Word Wrap=true
 JumpList=
 TextFolding=[]
 ViMarks=

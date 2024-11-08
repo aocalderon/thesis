@@ -88,7 +88,7 @@ following sections.
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.5\linewidth]{chapterPFlocks/figures/square.pdf}
+    \includegraphics[width=0.45\linewidth]{chapterPFlocks/figures/square.pdf}
     \caption{An example of the two half squares used in PSI algorithm.}\label{fig:square}
 \end{figure}
 
@@ -148,7 +148,7 @@ At the end of Phase 1, we have computed a set of maximal disks for a given time 
 form flocks. However, since Phase 1 involved partitioning the spatial domain for parallelism, Phase 2 becomes more complex as flocks can move across spatial 
 partitions over time. Once the maximal disks are identified for a time instant $i$, a temporal join occurs within each partition to link these disks with 
 partial flocks from the previous time instant ($i-1$). However, we must account for partial flocks that may appear near the partition borders and potentially 
-move into adjacent partitions (see Figure \ref{fig:maxdist}).
+move into adjacent partitions.
 
 \begin{figure}
     \centering
@@ -157,36 +157,42 @@ move into adjacent partitions (see Figure \ref{fig:maxdist}).
 \end{figure}
 
 To address this issue, we introduce an additional parameter, \textit{maxdist}, which represents the maximum distance a moving object can travel between 
-consecutive time instants. We define the \textit{safe area} of a partition as the internal region that is at least \textit{maxdist} away from the partition’s 
-border (illustrated in grey in Figure \ref{fig:simple_alternative}). Any partial or full flocks discovered within a partition’s safe area can be directly reported as 
-results. However, flocks that start or end outside the safe area must be collected for post-processing to determine if they correspond with partial flocks from 
-neighboring partitions. These cases, where flocks cross between partitions, are referred to as \textit{crossing partial flocks} (CPFs).
+consecutive time instants (see Figure \ref{fig:maxdist}). We define the \textit{safe area} of a partition as the internal region that is at least \textit{maxdist} away from the partition’s border (illustrated in grey in Figure \ref{fig:maxdist}). Any partial or full flocks discovered within a partition’s safe area can be directly reported as results. However, flocks that start or end outside the safe area must be collected for post-processing to determine if they correspond with partial flocks from neighboring partitions. These cases, where flocks cross between partitions, are referred to as \textit{crossing partial flocks} (CPFs).  
+
+In Figure \ref{fig:simple_alternative} we can see an example of the possible cases.  It shows flocks $a$ and $d$ which happen inside of the safe area of the orange partition, both of them are ready to be reported.  However, flocks $a$ and $c$ travel along different partitions.  Flock $a$ starts in $t_0$ in partition blue and move to partition orange in $t_2$.  It will create 2 CPFs: $a^{\prime}$ from $t_{0}$ to $t_{1}$ reported by the orange partition and $a^{\prime \prime}$ from $t_{2}$ to $t_{4}$ reported by the blue partition.  Similarly, flock $c$ starts in $t_0$ in partition blue and move to partition orange in $t_2$, then it come back to partition blue in $t_3$.  It will create 3 CPFs: $c^{\prime}$ from $t_{0}$ to $t_{1}$ reported by the blue partition, $c^{\prime \prime}$ in ${t_2}$ reported by the orange partition, and $c^{\prime \prime \prime}$ from $t_{3}$ to $t_{4}$ reported by the blue partition.
+
+In Figure \ref{fig:simple_alternative}, we observe an example illustrating the possible cases. The figure shows flocks $a$ and $d$, which occur within the safe area of the orange partition; both of these flocks are ready to be reported. However, flocks $a$ and $c$ move across different partitions. 
+
+Flock $a$ begins in partition blue at $t_0$ and moves to partition orange at $t_2$. This movement results in two CPFs: $a^{\prime}$, from $t_{0}$ to $t_{1}$, reported by the orange partition, and $a^{\prime \prime}$, from $t_{2}$ to $t_{4}$, reported by the blue partition.
+
+Similarly, flock $c$ starts in partition blue at $t_0$, moves to partition orange at $t_2$, and returns to partition blue at $t_3$. This creates three CPFs: $c^{\prime}$, from $t_{0}$ to $t_{1}$, reported by the blue partition; $c^{\prime \prime}$, at $t_2$, reported by the orange partition; and $c^{\prime \prime \prime}$, from $t_{3}$ to $t_{4}$, reported by the blue partition.
+
 
 \begin{figure}
     \centering
     \includegraphics[height=0.9\textheight]
     {chapterPFlocks/figures/plots/11_temporal_partitions/TemporalPartitioning.pdf}
-    \caption{A flock that moves in different partitions along the time.}\label{fig:simple_alternative}
+    \caption{CPFs cases moving along different partitions over time.}\label{fig:simple_alternative}
 \end{figure}
 
 In the post-processing stage, we evaluate four alternatives for collecting and checking crossing partial flocks (CPFs). The simplest approach is to gather all CPFs and process them sequentially on a single node (the master node). However, due to the large number of partitions and the \textit{maxdist} parameter, the volume of CPFs requiring post-processing can become substantial, leading to a bottleneck that negatively impacts overall performance.
 
-We also evaluate an intermediate approach where the CPFs from a given partition are sent to a middle-level node for processing, based on the quadtree structure used to create the partitions. The choice of which middle-level node to send the CPFs to is determined by a user-defined parameter called \textit{step}. A value of $step = 1$ corresponds to sending CPFs to the immediate parent, $step = 2$ to the grandparent, and so on, until the root is reached. For example, with \textit{step=1}, all CPFs from a partition are first sent to its parent node in the quadtree. The parent node processes its CPFs, but some flocks may still cross outside the parent's safe area.  These leftover CPFs are then passed to the next parent (since $step = 1$), and this process continues until all CPFs are processed, potentially reaching the root node. This approach allows for parallelism in post-processing, as moving to a parent node increases the partition's area and improves the likelihood that CPFs can be resolved at that level. In the experimental section, we test different values of the \textit{step} parameter, such as $step=2$, where CPFs are sent to the grandparent at each stage.  Figure \ref{fig:master-bylevel_alternative} illustrates the process.
+We also evaluate an intermediate approach where the CPFs from a given partition are sent to a middle-level node for processing, based on the quadtree structure used to create the partitions. The choice of which middle-level node to send the CPFs to is determined by a user-defined parameter called \textit{step}. A value of $step = 1$ corresponds to sending CPFs to the immediate parent, $step = 2$ to the grandparent, and so on, until the root is reached. For example, with \textit{step=1}, all CPFs from a partition are first sent to its parent node in the quadtree. The parent node processes its CPFs, but some flocks may still cross outside the parent's safe area.  These leftover CPFs are then passed to the next parent (since $step = 1$), and this process continues until all CPFs are processed, potentially reaching the root node. This approach allows for parallelism in post-processing, as moving to a parent node increases the partition's area and improves the likelihood that CPFs can be resolved at that level. In the experimental section, we test different values of the \textit{step} parameter, such as $step=2$, where CPFs are sent to the grandparent at each stage.  Figure \ref{fig:master-bylevel_alternative} illustrates the Master and By-Level alternatives.
 
 \begin{figure}
     \centering
     \includegraphics[width=0.75\linewidth]
     {chapterPFlocks/figures/plots/11_temporal_partitions/MasterByLevel}
-    \caption{.}\label{fig:master-bylevel_alternative}
+    \caption{Master and By-Level alternatives.  Different values of $steps$ are illustrated for the By-Level apprach,}\label{fig:master-bylevel_alternative}
 \end{figure}
 
-Unlike the previous two approaches, which assign all CPFs from a given partition in the same way (partition-based), the third alternative assigns each CPF individually (CPF-based). For a given CPF $f$, we extend its most recent disk by a ring with a size of \textit{maxdist}, identifying all overlapping partitions for this extended disk —essentially determining which neighboring partitions the objects in $f$ could move to in the next time instant. For each overlapping partition, we retrieve the Least Common Ancestor (LCA) between that partition and $f$'s original partition. CPF $f$ is then sent to the node(s) corresponding to these LCAs. The benefit of this approach is that the LCA can efficiently complete the processing for $f$, as it exploits proximity using \textit{mindist}.  However, the downside is the increased copying overhead, as $f$ may need to be sent to multiple nodes.
+Unlike the previous two approaches, which assign all CPFs from a given partition in the same way (partition-based), the third alternative assigns each CPF individually (CPF-based). For a given CPF $f$, we extend its most recent disk by a ring with a size of \textit{maxdist}, identifying all overlapping partitions for this extended disk —essentially determining which neighboring partitions the objects in $f$ could move to in the next time instant. For each overlapping partition, we retrieve the Least Common Ancestor (LCA) between that partition and $f$'s original partition. CPF $f$ is then sent to the node(s) corresponding to these LCAs. The benefit of this approach is that the LCA can efficiently complete the processing for $f$, as it exploits proximity using \textit{mindist} (see Figure \ref{fig:lca_alternative}).  However, the downside is the increased copying overhead, as $f$ may need to be sent to multiple nodes.
 
 \begin{figure}
     \centering
     \includegraphics[width=0.75\linewidth]
     {chapterPFlocks/figures/plots/11_temporal_partitions/LCA}
-    \caption{.}\label{fig:lcal_alternative}
+    \caption{LCA alternative and how it resolves CPFs at the nearest shared ancestor of the involved partial flocks.}\label{fig:lca_alternative}
 \end{figure}
 
 A limitation of the previous alternatives is that each spatial partition is processed by a single node, which incrementally evaluates all time instances for that partition. The fourth alternative introduces fixed divisions in the temporal domain, based on a user-defined parameter (number of divisions), as illustrated in Figure \ref{fig:cube_alternative}. In this approach, the spatio-temporal space is divided into temporal `cubes,' each of which can be processed by different nodes. For simplicity, we assume that each division spans the same length of time. However, an additional validation step is required to ensure continuity of flocks across temporal divisions.
