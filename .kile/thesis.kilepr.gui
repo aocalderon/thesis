@@ -13,6 +13,15 @@ Indentation Mode=normal
 Mode=LaTeX
 Mode Set By User=false
 
+[document-settings,item:acknowledgements.tex]
+Bookmarks=
+Encoding=UTF-8
+Highlighting=LaTeX
+Highlighting Set By User=false
+Indentation Mode=normal
+Mode=LaTeX
+Mode Set By User=false
+
 [document-settings,item:appendix.tex]
 Bookmarks=
 Encoding=UTF-8
@@ -139,6 +148,15 @@ Indentation Mode=normal
 Mode=LaTeX
 Mode Set By User=false
 
+[document-settings,item:dedication.tex]
+Bookmarks=
+Encoding=UTF-8
+Highlighting=LaTeX
+Highlighting Set By User=false
+Indentation Mode=normal
+Mode=LaTeX
+Mode Set By User=false
+
 [document-settings,item:introduction.tex]
 Bookmarks=
 Encoding=UTF-8
@@ -188,6 +206,10 @@ Mode Set By User=false
 open=false
 order=9
 
+[item:acknowledgements.tex]
+open=false
+order=-1
+
 [item:appendix.tex]
 open=false
 order=4
@@ -221,7 +243,7 @@ open=false
 order=19
 
 [item:chapterPFlocks/methods.tex]
-open=true
+open=false
 order=1
 
 [item:chapterSDCEL.tex]
@@ -245,6 +267,10 @@ open=false
 order=6
 
 [item:conclusions.tex]
+open=false
+order=-1
+
+[item:dedication.tex]
 open=false
 order=-1
 
@@ -272,6 +298,14 @@ order=11
 CursorColumn=0
 CursorLine=0
 Dynamic Word Wrap=false
+JumpList=
+TextFolding=[]
+ViMarks=
+
+[view-settings,view=0,item:acknowledgements.tex]
+CursorColumn=0
+CursorLine=1
+Dynamic Word Wrap=true
 JumpList=
 TextFolding=[]
 ViMarks=
@@ -388,6 +422,14 @@ JumpList=
 TextFolding=[]
 ViMarks=
 
+[view-settings,view=0,item:dedication.tex]
+CursorColumn=0
+CursorLine=0
+Dynamic Word Wrap=false
+JumpList=
+TextFolding=[]
+ViMarks=
+
 [view-settings,view=0,item:introduction.tex]
 CursorColumn=0
 CursorLine=0
@@ -414,7 +456,7 @@ ViMarks=
 
 [view-settings,view=0,item:thesis.tex]
 CursorColumn=0
-CursorLine=107
+CursorLine=76
 Dynamic Word Wrap=false
 JumpList=
 TextFolding=[]
