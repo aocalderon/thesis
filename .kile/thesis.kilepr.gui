@@ -271,8 +271,8 @@ open=false
 order=-1
 
 [item:dedication.tex]
-open=false
-order=-1
+open=true
+order=1
 
 [item:introduction.tex]
 open=false
@@ -423,7 +423,7 @@ TextFolding=[]
 ViMarks=
 
 [view-settings,view=0,item:dedication.tex]
-CursorColumn=0
+CursorColumn=18
 CursorLine=0
 Dynamic Word Wrap=false
 JumpList=
@@ -455,8 +455,8 @@ TextFolding=[]
 ViMarks=
 
 [view-settings,view=0,item:thesis.tex]
-CursorColumn=0
-CursorLine=76
+CursorColumn=25
+CursorLine=39
 Dynamic Word Wrap=false
 JumpList=
 TextFolding=[]
