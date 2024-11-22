@@ -271,7 +271,7 @@ open=false
 order=-1
 
 [item:dedication.tex]
-open=true
+open=false
 order=1
 
 [item:introduction.tex]
