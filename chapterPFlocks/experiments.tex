@@ -112,14 +112,14 @@ To verify whether a maximal clique qualifies as a maximal disk, we introduce the
 Given a set of points in Euclidean space, the MBC is the smallest circle that can enclose all the points. For each maximal clique identified within a partition, 
 we can quickly check if all points in the clique fit within an MBC with a diameter of $\varepsilon$. If they do, we can immediately report the set of points and 
 their MBC as a maximal disk.  However, cliques that do not satisfy this condition must be evaluated using the traditional method. This involves computing the 
-potential disk centers, identifying candidate disks, and pruning them, as outlined in Figure \ref{fig:MF_flowchart}. Figure \ref{app:cmbc_flowchar} illustrates the steps described above.  We have termed this approach as CMBC.
+potential disk centers, identifying candidate disks, and pruning them, as outlined in Figure \ref{fig:MF_flowchart}. Figure \ref{app:cmbc_flowchar} in the Appendix illustrates the steps described above.  We have termed this approach as CMBC.
 
 To evaluate CMBC and cliques that do not meet the above condition, we implemented two variants. The first variant, termed \textit{COLLECT}, gathers the points from
 all cliques that are not reported as maximal disks, removes duplicates (since points may appear in multiple cliques), and then applies the traditional pruning 
 method to the entire set. In the second variant, \textit{EACH}, we apply the pruning procedure independently for each clique that does not qualify as a maximal 
 disk.
 
-Figure \ref{fig:cmbc_500_psi} compares the performance of the two CMBC variants with the time taken by PSI for the same stage. Interestingly, neither variant achieves a reduction in execution time. Upon closer analysis, it becomes evident that while identifying the cliques and their MBCs is relatively fast, only a small fraction of the cliques qualify as maximal disks. Consequently, the overhead associated with processing the remaining cliques outweighs the benefits, making the original PSI approach more efficient.
+Figure \ref{fig:cmbc_500_psi} compares the performance of the two CMBC variants with the time taken by PSI for the same stage. Interestingly, neither variant achieves a reduction in execution time. Upon closer examination, it becomes evident that while identifying the cliques and their MBCs is relatively fast, only a small fraction of the cliques qualify as maximal disks. Consequently, the overhead associated with processing the remaining cliques outweighs the benefits, making the original PSI approach more efficient.
 
 \begin{figure}
     \centering
@@ -127,7 +127,9 @@ Figure \ref{fig:cmbc_500_psi} compares the performance of the two CMBC variants 
     \caption{Execution time of the two variants of CMBC approach compared to standard PSI in the partition 187 ($\varepsilon=20m$).}\label{fig:cmbc_500_psi}
 \end{figure}
 
-We attempted to increase the density within the partition to determine whether a higher number of cliques would qualify as maximal disks and improve performance. To achieve this, we measured the density of points and pairs in the current partition and conducted simulations to introduce additional trajectory points within the same space. The number of points in the partition was incrementally increased from 500 to 1K, 2K, 4K, and 6K to test varying densities. For each simulation, we recorded the execution time required to identify maximal disks, increasing the value of $\varepsilon$ from 10 to 20 meters. Additionally, we tracked the number of pairs generated for each value of $\varepsilon$ as a measure of density. Figure \ref{fig:cmbc_pairs} presents the performance of CMBC (using the COLLECT variant) compared to PSI as the number of points and pair density increased.
+We next increased the density of points within the same partition to determine whether a higher number of cliques would qualify as maximal disks and thus affect the performance. 
+%To achieve this, we measured the density of points and pairs in the current partition and conducted simulations to introduce additional trajectory points within the same space. 
+The number of points in the partition was incrementally increased from 500 (the initial number) to 1K, 2K, 4K, and 6K so as to test varying densities. For each simulation, we recorded the execution time required to identify maximal disks, increasing the value of $\varepsilon$ from 10 to 20 meters. Additionally, we tracked the number of pairs generated for each value of $\varepsilon$ as a measure of candidate disk density. Figure \ref{fig:cmbc_pairs} presents the performance of CMBC (using the COLLECT variant) compared to PSI as the number of points and pair density increased.
 
 \begin{figure}
     \centering
@@ -140,7 +142,7 @@ We observed that the performance of the CMBC approach surpasses that of PSI when
 \begin{figure}
     \centering
     \includegraphics[width=0.75\linewidth] {chapterPFlocks/figures/plots/10_cmbc/cmbc_2K_psi}
-    \caption{Execution time of the two variants of CMBC approach compared to standard PSI in the partition 187 with $aprox$2K points present ($\varepsilon=20m$).}\label{fig:cmbc_2K_psi}
+    \caption{Execution time of the two variants of CMBC approach compared to standard PSI in the partition 187 with $\approx$2K points present ($\varepsilon=20m$).}\label{fig:cmbc_2K_psi}
 \end{figure}
 
 \subsection{Relative performance of BFE and PSI Phase 1 using synthetic datasets.}
