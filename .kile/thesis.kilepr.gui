@@ -2,7 +2,7 @@
 kile_livePreviewEnabled=true
 kile_livePreviewStatusUserSpecified=false
 kile_livePreviewTool=LivePreview-PDFLaTeX
-lastDocument=thesis.tex
+lastDocument=chapterPFlocks/experiments.tex
 
 [document-settings,item:abstract.tex]
 Bookmarks=
@@ -231,12 +231,12 @@ open=false
 order=7
 
 [item:chapterPFlocks.tex]
-open=false
-order=17
+open=true
+order=2
 
 [item:chapterPFlocks/experiments.tex]
-open=false
-order=18
+open=true
+order=1
 
 [item:chapterPFlocks/intro.tex]
 open=false
@@ -359,9 +359,9 @@ TextFolding=[]
 ViMarks=
 
 [view-settings,view=0,item:chapterPFlocks/experiments.tex]
-CursorColumn=0
-CursorLine=0
-Dynamic Word Wrap=false
+CursorColumn=665
+CursorLine=137
+Dynamic Word Wrap=true
 JumpList=
 TextFolding=[]
 ViMarks=
@@ -455,8 +455,8 @@ TextFolding=[]
 ViMarks=
 
 [view-settings,view=0,item:thesis.tex]
-CursorColumn=25
-CursorLine=39
+CursorColumn=1
+CursorLine=40
 Dynamic Word Wrap=false
 JumpList=
 TextFolding=[]
