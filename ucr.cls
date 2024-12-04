@@ -109,14 +109,17 @@
 %%%  }
 %%% ====================================================================
 \usepackage{anysize}
-\usepackage[left=1.5in,top=1.5in,right=1in,bottom=1in]{geometry}
+\usepackage[letterpaper, left=1.5in, top=1.5in, right=1in, bottom=1in]{geometry}
+%\usepackage[paperwidth=7.5in,paperheight=10in, left=0in, top=0in, right=0in, bottom=0in]{geometry}
+%\usepackage[letter, frame]{crop}
+
 \usepackage[hidelinks,colorlinks=true,linkcolor=blue,citecolor=blue,hypertexnames=false]{hyperref}
 
 \usepackage{xspace}
 \usepackage{graphicx}
 \usepackage{pdfsync}
 \usepackage{amsmath}
-\usepackage[usenames]{color}
+%\usepackage[usenames]{color}
 % \usepackage{bm}
 % \usepackage{mathrsfs}
 % \usepackage[dvips]{graphicx}

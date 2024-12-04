@@ -2,7 +2,7 @@
 kile_livePreviewEnabled=true
 kile_livePreviewStatusUserSpecified=false
 kile_livePreviewTool=LivePreview-PDFLaTeX
-lastDocument=chapterPFlocks/experiments.tex
+lastDocument=ucr.cls
 
 [document-settings,item:abstract.tex]
 Bookmarks=
@@ -203,8 +203,8 @@ Mode=LaTeX
 Mode Set By User=false
 
 [item:abstract.tex]
-open=false
-order=9
+open=true
+order=2
 
 [item:acknowledgements.tex]
 open=false
@@ -231,11 +231,11 @@ open=false
 order=7
 
 [item:chapterPFlocks.tex]
-open=true
+open=false
 order=2
 
 [item:chapterPFlocks/experiments.tex]
-open=true
+open=false
 order=1
 
 [item:chapterPFlocks/intro.tex]
@@ -291,13 +291,13 @@ open=true
 order=0
 
 [item:ucr.cls]
-open=false
-order=11
+open=true
+order=1
 
 [view-settings,view=0,item:abstract.tex]
 CursorColumn=0
-CursorLine=0
-Dynamic Word Wrap=false
+CursorLine=7
+Dynamic Word Wrap=true
 JumpList=
 TextFolding=[]
 ViMarks=
@@ -359,7 +359,7 @@ TextFolding=[]
 ViMarks=
 
 [view-settings,view=0,item:chapterPFlocks/experiments.tex]
-CursorColumn=665
+CursorColumn=12
 CursorLine=137
 Dynamic Word Wrap=true
 JumpList=
@@ -455,16 +455,16 @@ TextFolding=[]
 ViMarks=
 
 [view-settings,view=0,item:thesis.tex]
-CursorColumn=1
-CursorLine=40
-Dynamic Word Wrap=false
+CursorColumn=27
+CursorLine=52
+Dynamic Word Wrap=true
 JumpList=
 TextFolding=[]
 ViMarks=
 
 [view-settings,view=0,item:ucr.cls]
-CursorColumn=0
-CursorLine=0
+CursorColumn=1
+CursorLine=113
 Dynamic Word Wrap=false
 JumpList=
 TextFolding=[]
