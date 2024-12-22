@@ -25,7 +25,7 @@ size_order = factor(data3$size, level = c('2x','3x','4x','5x','6x','7x'))
 
 p = ggplot(data3, aes(x = size_order, y = time, fill = method)) + 
   geom_col(width = 0.7, position="dodge") + 
-  labs(x="Dataset Size", y="Time [s]", caption = "(a)") + 
+  labs(x="Dataset Size Multiplier (e.g., 2x, 3x, etc.)", y="Time [s]", caption = "(a)") + 
   theme_bw() + 
   theme(axis.text.x = element_text(angle = 0, hjust = 0.5, vjust = 0.5), 
         plot.caption = element_text(hjust = 0.5, size = 12)

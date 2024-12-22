@@ -24,7 +24,7 @@ size_order = factor(data3$size, level = c('2x','3x','4x','5x','6x','7x'))
 p = ggplot(data3, aes(x = size_order, y = time, fill = method)) + 
   geom_col(width = 0.7, position="dodge") + 
   theme(axis.text.x = element_text(angle = 0, hjust = 0.5, vjust = 0.5)) +
-  labs(x="Dataset Size", y="Time [s]") + 
+  labs(x="Dataset Size Multiplier (e.g., 2x, 3x, etc.)", y="Time [s]") + 
   guides(fill=guide_legend(title="Method"))
 plot(p)
 
